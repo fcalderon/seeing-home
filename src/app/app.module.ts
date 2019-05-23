@@ -3,6 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {SeeingHomeMaterialModule} from "./seeing-home-material/seeing-home-material.module";
+import {AuthModule} from "./auth/auth.module";
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
+import {TaskModule} from "./task/task.module";
 
 @NgModule({
   declarations: [
@@ -10,7 +16,12 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    AuthModule,
+    SeeingHomeMaterialModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    TaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]
