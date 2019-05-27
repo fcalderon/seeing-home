@@ -1,28 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFireAuth} from "@angular/fire/auth";
-import { auth } from 'firebase/app';
+import { ErrorReason } from '../auth-errors';
+import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.sass']
-})
+             selector: 'app-sign-up',
+             templateUrl: './sign-up.component.html',
+             styleUrls: ['./sign-up.component.sass']
+           })
 export class SignUpComponent implements OnInit {
-  loggingIn = true;
+  loggingIn = false;
 
-  constructor(private fireAuth: AngularFireAuth) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
 
   private signUp(credentials) {
-    this.fireAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password)
-      .then(result => { console.log(result) }, err => {})
+    this.authService.signUp$(credentials)
+        .subscribe(user => {
+          console.log('User signed up', user);
+        }, err => {
+          console.error('Failed', err);
+          if (err.reason && err.reason === ErrorReason.EMAIL_EXISTS) {
+            console.error('Failed because email exists');
+          }
+        });
   }
 
   private logIn(credentials) {
-    this.fireAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password)
-      .then(result => { console.log(result) }, err => {})
+    this.authService.logIn(credentials);
   }
 
   handleSubmitted(credentials) {

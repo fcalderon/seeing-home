@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthServicesModule } from './auth-services.module';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import {
@@ -11,11 +12,11 @@ import {
   MatCheckboxModule
 } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
-import {AngularFireAuthModule} from "@angular/fire/auth";
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 @NgModule({
   declarations: [SignUpComponent, SignUpFormComponent],
-  exports: [SignUpComponent, SignUpFormComponent],
+  exports: [SignUpComponent, SignUpFormComponent, AuthServicesModule],
   imports: [
     CommonModule,
     MatInputModule,
@@ -25,7 +26,8 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
     MatCardModule,
     ReactiveFormsModule,
     AngularFireAuthModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    AuthServicesModule
   ]
 })
 export class AuthModule { }
