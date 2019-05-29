@@ -11,14 +11,18 @@ import {Observable} from "rxjs";
 })
 export class TaskListComponent implements OnInit {
   private _tasks$: Observable<any>;
+  private completedTasks$: Observable<any>;
   myTaskName = '';
 
   constructor(private authService: AuthService, private db: AngularFireDatabase) { }
 
   ngOnInit() {
     this.getUser$().subscribe(user => {
-      this._tasks$ = this.db.list(`/${user.uid}/task`).snapshotChanges()
-        .pipe(map(items => items.map(item => ({key: item.key, ...item.payload.val() }))))
+      this._tasks$ = this.db.list(`/${user.uid}/task`, ref => ref.orderByChild('completed').equalTo(false)).snapshotChanges()
+        .pipe(map(items => items.map(item => ({key: item.key, ...item.payload.val() }))));
+
+      this.completedTasks$ = this.db.list(`/${user.uid}/task`, ref => ref.orderByChild('completed').equalTo(true)).snapshotChanges()
+                                 .pipe(map(items => items.map(item => ({key: item.key, ...item.payload.val() }))));
     });
 
     // this.getUser$().subscribe(user => {
@@ -41,18 +45,22 @@ export class TaskListComponent implements OnInit {
     return this._tasks$;
   }
 
+  getCompletedTasks$() {
+    return this.completedTasks$;
+  }
+
   get disableButton() {
     return !this.myTaskName || this.myTaskName.length === 0;
   }
 
   saveTask(userId) {
-    this.db.list(`/${userId}/task`).push({ name: this.myTaskName })
+    this.db.list(`/${userId}/task`).push({ name: this.myTaskName, completed: false })
       .then(() => {
         this.myTaskName = '';
-      })
+      });
   }
 
-  completeTask(uid, taskKey) {
-    this.db.list(`/${uid}/task/${taskKey}`).update('completed', true);
+  toggleTaskCompleted(uid, taskKey, completed) {
+    this.db.object(`/${uid}/task/${taskKey}/completed`).set(!completed);
   }
 }

@@ -1,17 +1,27 @@
 <div>
   <div *ngIf="getUser$() | async as user">
     <p>Logged in as {{ user.uid }}</p>
-    <ul>
-      <li *ngFor="let task of getTasks$() | async" (click)="completeTask(user.uid, task.key)">
-         {{task.key}} - {{task.name}} - {{task.description}} - {{task.completed}}
-      </li>
-    </ul>
 
+    <h2>Add a task</h2>
     <div>
       <label for="task-name">Task Name</label>
       <input id="task-name" [(ngModel)]="myTaskName">
       <button (click)="saveTask(user.uid)" [disabled]="disableButton">Save</button>
     </div>
+
+    <h2>To-Do</h2>
+    <ul>
+      <li *ngFor="let task of getTasks$() | async" (click)="toggleTaskCompleted(user.uid, task.key, task.completed)">
+         {{task.key}} - {{task.name}} - {{task.description}} - {{task.completed}}
+      </li>
+    </ul>
+
+    <h2>Completed Tasks</h2>
+    <ul>
+      <li *ngFor="let task of getCompletedTasks$() | async" (click)="toggleTaskCompleted(user.uid, task.key, task.completed)">
+        {{task.key}} - {{task.name}} - {{task.description}} - {{task.completed}}
+      </li>
+    </ul>
   </div>
 
 </div>

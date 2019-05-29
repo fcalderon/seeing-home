@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
              styleUrls: ['./sign-up.component.sass']
            })
 export class SignUpComponent implements OnInit {
-  loggingIn = false;
+  loggingIn = true;
 
   constructor(private authService: AuthService) { }
 
