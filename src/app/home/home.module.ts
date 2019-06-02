@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HomeRoutingModule } from './home-routing.module';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -25,7 +26,8 @@ import { UserNavigationComponent } from './user-navigation/user-navigation.compo
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    HomeRoutingModule,
   ]
 })
 export class HomeModule { }
