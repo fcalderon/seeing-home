@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -7,8 +7,10 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./sign-up-form.component.css']
 })
 export class SignUpFormComponent {
+  @Input() loggingIn = false;
+
   @Output()
-  onSubmitted = new EventEmitter<any>();
+  formSubmitted = new EventEmitter<any>();
 
   signUpForm = this.fb.group({
     email: [null, Validators.required],
@@ -18,7 +20,6 @@ export class SignUpFormComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit() {
-    console.log('Form submitted', this.signUpForm.value);
-    this.onSubmitted.emit(this.signUpForm.value);
+    this.formSubmitted.emit(this.signUpForm.value);
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AuthServicesModule } from './auth-services.module';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
@@ -27,7 +28,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
     ReactiveFormsModule,
     AngularFireAuthModule,
     MatCheckboxModule,
-    AuthServicesModule
+    AuthServicesModule,
+    RouterModule
   ]
 })
 export class AuthModule { }

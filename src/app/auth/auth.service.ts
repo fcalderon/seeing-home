@@ -6,7 +6,12 @@ import { map } from 'rxjs/operators';
 import { ErrorReason } from './auth-errors';
 import { AuthServicesModule } from './auth-services.module';
 import { Credentials } from './credentials';
+import UserCredential = firebase.auth.UserCredential;
 
+const FIREBASE_ERRORS = {
+  UserNotFound: 'auth/user-not-found',
+  EmailExists: 'auth/email-already-in-use'
+};
 
 /**
  * Service to handles Authorization and Authentication
@@ -37,7 +42,7 @@ export class AuthService {
           (err) => {
             console.error('Error signing up', err);
 
-            if (err.code === 'auth/email-already-in-use') {
+            if (err.code === FIREBASE_ERRORS.EmailExists) {
               subject.error({ reason: ErrorReason.EMAIL_EXISTS, cause: err });
             } else {
               subject.error({ reason: ErrorReason.UNKNOWN, cause: err });
@@ -47,11 +52,25 @@ export class AuthService {
     return subject.asObservable();
   }
 
-  logIn(credentials: Credentials) {
+  logIn(credentials: Credentials): Observable<UserCredential> {
+    const loginSubject = new Subject<UserCredential>();
+
     this.fireAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password)
-        .then(result => { console.log(result); }, (err) => {
-          console.log('Error logging in', err);
+        .then((result: UserCredential) => {
+          loginSubject.next(result);
+          loginSubject.complete();
+        }, (err) => {
+          const error = { reason: ErrorReason.UNKNOWN, cause: err };
+
+          if (err.code === FIREBASE_ERRORS.UserNotFound) {
+            error.reason = ErrorReason.INVALID_EMAIL_PASSWORD;
+          }
+          console.log('Error logging in', error);
+
+          loginSubject.error(error);
         });
+
+    return loginSubject.asObservable();
   }
 
   logOut() {
