@@ -8,6 +8,8 @@
       <a mat-list-item [routerLink]="['/']">Dashboard</a>
       <a mat-list-item [routerLink]="['/tasks']">Tasks</a>
       <a mat-list-item [routerLink]="['/notes']">Notes</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item (click)="handleLogOutClicked()">Log Out</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

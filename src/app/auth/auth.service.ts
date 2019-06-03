@@ -73,7 +73,11 @@ export class AuthService {
     return loginSubject.asObservable();
   }
 
+  updateDisplayName(displayName: string) {
+    this.fireAuth.auth.currentUser.updateProfile({ displayName });
+  }
+
   logOut() {
-    // TODO
+    this.fireAuth.auth.signOut();
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthModule } from '../auth/auth.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,9 +13,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '@angular/cdk/layout';
 import { UserNavigationComponent } from './user-navigation/user-navigation.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 @NgModule({
-  declarations: [UserDashboardComponent, UserNavigationComponent],
+  declarations: [UserDashboardComponent, UserNavigationComponent, UserSettingsComponent],
   exports: [UserDashboardComponent],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { UserNavigationComponent } from './user-navigation/user-navigation.compo
     MatSidenavModule,
     MatListModule,
     HomeRoutingModule,
+    AuthModule
   ]
 })
 export class HomeModule { }
