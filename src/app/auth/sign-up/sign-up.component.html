@@ -2,10 +2,12 @@
   <div class="sh-form">
     <div class="sh-messages">
       <h3>Messages Here</h3>
+      <h4> {{ loggingIn ? 'LOG IN' : 'SIGN UP' }}</h4>
     </div>
     <div class="sh-form">
       <app-sign-up-form (formSubmitted)="handleSubmitted($event)"
                         [loggingIn]="loggingIn"></app-sign-up-form>
+      <a [routerLink]="[]" [queryParams]="{ signingUp: true }">Sign Up</a>
     </div>
   </div>
 </div>

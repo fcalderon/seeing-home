@@ -1,9 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { ErrorReason } from '../auth-errors';
 import { AuthService } from '../auth.service';
+
+export enum AuthFormMode {
+  SIGN_UP = 'SIGN_UP',
+  LOGIN = 'LOGIN'
+}
 
 @Component({
              selector: 'app-sign-up',
@@ -12,11 +17,13 @@ import { AuthService } from '../auth.service';
            })
 export class SignUpComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject<boolean>();
+  authFormMode = AuthFormMode.LOGIN;
 
   loggingIn = true;
 
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.authService.isLoggedIn$().pipe(take(1))
@@ -24,6 +31,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
           if (isLoggedIn) {
             this.router.navigate(['']);
           }
+        });
+    this.route.data.pipe(takeUntil(this.onDestroy$))
+        .subscribe((data: { mode: AuthFormMode }) => {
+          if (data && data.mode) {
+            this.authFormMode = data.mode;
+            // this.loggingIn = this.authFormMode !== AuthFormMode.SIGN_UP;
+          }
+        });
+    this.route.queryParams.pipe(takeUntil(this.onDestroy$))
+        .subscribe((queryParams: { signingUp: boolean}) => {
+          this.loggingIn = !queryParams.signingUp;
         });
   }
 

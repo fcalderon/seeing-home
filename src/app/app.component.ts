@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.auth.isLoggedIn$().pipe(takeUntil(this.unsubscribe)).subscribe(loggedIn => {
       if (!loggedIn) {
-        this.router.navigate(['/signUp']);
+        this.router.navigate(['/authenticate']);
       }
     });
   }
