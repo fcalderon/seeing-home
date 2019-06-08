@@ -36,8 +36,14 @@ export class AuthService {
 
     this.fireAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password)
         .then(result => {
-            subject.next(result.user);
-            subject.complete();
+            result.user.updateProfile({ displayName: credentials.name })
+                  .then(() => {
+                    subject.next(result.user);
+                    subject.complete();
+                  }, () => {
+                    subject.next(result.user);
+                    subject.complete();
+                  });
           },
           (err) => {
             console.error('Error signing up', err);

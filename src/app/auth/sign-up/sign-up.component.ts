@@ -36,7 +36,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
         .subscribe((data: { mode: AuthFormMode }) => {
           if (data && data.mode) {
             this.authFormMode = data.mode;
-            // this.loggingIn = this.authFormMode !== AuthFormMode.SIGN_UP;
           }
         });
     this.route.queryParams.pipe(takeUntil(this.onDestroy$))
@@ -49,6 +48,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.authService.signUp$(credentials).pipe(takeUntil(this.onDestroy$))
         .subscribe(user => {
           console.log('User signed up', user);
+          this.router.navigate(['']);
         }, err => {
           console.error('Failed', err);
           if (err.reason && err.reason === ErrorReason.EMAIL_EXISTS) {

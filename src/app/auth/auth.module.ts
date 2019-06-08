@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthServicesModule } from './auth-services.module';
+import { LoginFormComponent } from './login-form/login-form.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,8 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 
 @NgModule({
-  declarations: [SignUpComponent, SignUpFormComponent],
-  exports: [SignUpComponent, SignUpFormComponent, AuthServicesModule],
+  declarations: [SignUpComponent, SignUpFormComponent, LoginFormComponent],
+  exports: [LoginFormComponent, SignUpComponent, SignUpFormComponent, AuthServicesModule],
   imports: [
     CommonModule,
     MatInputModule,

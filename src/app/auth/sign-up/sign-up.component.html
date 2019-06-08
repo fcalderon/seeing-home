@@ -5,9 +5,17 @@
       <h4> {{ loggingIn ? 'LOG IN' : 'SIGN UP' }}</h4>
     </div>
     <div class="sh-form">
-      <app-sign-up-form (formSubmitted)="handleSubmitted($event)"
-                        [loggingIn]="loggingIn"></app-sign-up-form>
-      <a [routerLink]="[]" [queryParams]="{ signingUp: true }">Sign Up</a>
+      <app-login-form (formSubmitted)="handleSubmitted($event)"
+                      *ngIf="loggingIn; else signUpFormTemplate"></app-login-form>
+
+      <ng-template #signUpFormTemplate>
+        <app-sign-up-form (formSubmitted)="handleSubmitted($event)"></app-sign-up-form>
+      </ng-template>
+
+      <ng-template #loginLink>
+        <p>Have an account? <a [routerLink]="[]" [queryParams]="{ signingUp: undefined }"> Log In</a></p>
+      </ng-template>
+      <p *ngIf="loggingIn; else loginLink">Don't have an account? <a [routerLink]="[]" [queryParams]="{ signingUp: true }">Sign Up</a></p>
     </div>
   </div>
 </div>

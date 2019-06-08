@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-sign-up-form',
-  templateUrl: './sign-up-form.component.html',
-  styleUrls: ['./sign-up-form.component.css']
+  selector: 'app-login-form',
+  templateUrl: './login-form.component.html',
+  styleUrls: ['./login-form.component.scss']
 })
-export class SignUpFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit {
   @Output()
   formSubmitted = new EventEmitter<any>();
 
@@ -20,7 +20,6 @@ export class SignUpFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
-      name: [null, Validators.required],
       email: [null, Validators.required],
       password: [null, Validators.required],
     });
